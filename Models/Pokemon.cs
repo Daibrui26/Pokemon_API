@@ -13,8 +13,8 @@ public class Pokemon {
     public List<Tipo?> Tipos { get; set; } = new();
     public List<Movimiento?> Movimientos { get; set; } = new();
     public List<Habilidad?> Habilidades { get; set; } = new();
-    public Estadistica Estadisticas { get; set; }
-    
+    public Estadistica? Estadisticas { get; set; }
+
 
 
     //Constructor
