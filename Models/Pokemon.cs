@@ -10,20 +10,20 @@ public class Pokemon
     public string Nombre { get; set; }
     public double Peso { get; set; }
     public bool Shiny { get; set; }
-    public string Tipos { get; set; }
+    public string Tipo { get; set; }
     public Habilidad Habilidad { get; set; } = new();
     public Pokeball Pokeball { get; set; }
     public Habitat Habitat { get; set; }
 
     // Constructor completo
-    public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipos, Habilidad habilidad, Pokeball pokeball, Habitat habitat)
+    public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat)
     {
         this.ID = id;
         this.Region = region;
         this.Nombre = nombre;
         this.Peso = peso;
         this.Shiny = shiny;
-        this.Tipos = tipos;
+        this.Tipo = tipo;
         this.Habilidad = habilidad;
         this.Pokeball = pokeball;
         this.Habitat = habitat;
