@@ -5,7 +5,7 @@ namespace Models;
 public class Pokemon
 {
     // Datos
-    public int ID { get; set; }
+    public int Id { get; set; }
     public string Region { get; set; }
     public string Nombre { get; set; }
     public double Peso { get; set; }
@@ -14,11 +14,12 @@ public class Pokemon
     public Habilidad Habilidad { get; set; } = new();
     public Pokeball Pokeball { get; set; }
     public Habitat Habitat { get; set; }
+    public Objeto Objeto {get; set; }
 
     // Constructor completo
-    public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat)
+    public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat, Objeto objeto)
     {
-        this.ID = id;
+        this.Id = id;
         this.Region = region;
         this.Nombre = nombre;
         this.Peso = peso;
@@ -27,6 +28,7 @@ public class Pokemon
         this.Habilidad = habilidad;
         this.Pokeball = pokeball;
         this.Habitat = habitat;
+        this.Objeto = objeto;
     }
 
     // Constructor vacío
