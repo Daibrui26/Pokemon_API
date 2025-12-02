@@ -57,8 +57,9 @@ namespace Pokemon_API.Controllers
             existingPokemon.Shiny = updatedPokemon.Shiny;
             existingPokemon.Tipo = updatedPokemon.Tipo;
             existingPokemon.Habilidad = updatedPokemon.Habilidad;
-            existingPokemon.Tipo = updatedPokemon.Tipo;
-            existingPokemon.Tipo = updatedPokemon.Tipo;
+            existingPokemon.Pokeball = updatedPokemon.Pokeball;
+            existingPokemon.Habitat = updatedPokemon.Habitat;
+            existingPokemon.Objeto = updatedPokemon.Objeto;
             await _repository.UpdateAsync(existingPokemon);
             return NoContent();
         }

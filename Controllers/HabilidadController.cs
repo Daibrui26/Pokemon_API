@@ -75,7 +75,7 @@ namespace Pokemon_API.Controllers
         // DELETE api/habilidad/{id}
         // Elimina una habilidad por ID
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Deletehabilidad(int id)
+        public async Task<IActionResult> DeleteHabilidad(int id)
         {
             var habilidad = await _repository.GetByIdAsync(id); // Busca la habilidad
             if (habilidad == null)

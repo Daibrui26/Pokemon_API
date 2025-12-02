@@ -35,7 +35,7 @@ namespace Pokemon_API.Controllers
         }
     
     [HttpPost]
-        public async Task<ActionResult<Pokeball>> CreateBebida(Pokeball pokeball)
+        public async Task<ActionResult<Pokeball>> CreatePokeball(Pokeball pokeball)
         {
             await _repository.AddAsync(pokeball);
             return CreatedAtAction(nameof(GetPokeball), new { id = pokeball.Id }, pokeball);
