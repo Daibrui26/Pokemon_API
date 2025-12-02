@@ -1,6 +1,6 @@
 public class Habitat
 {
-    public int ID { get; set; }
+    public int Id { get; set; }
     public string Nombre { get; set; }
     public string Region { get; set; }
     public string Clima { get; set; }
@@ -10,7 +10,7 @@ public class Habitat
     // Constructor completo
     public Habitat(int id, string nombre, string region, string clima, int temperatura, string descripcion)
     {
-        this.ID = id;
+        this.Id = id;
         this.Nombre = nombre;
         this.Region = region;
         this.Clima = clima;

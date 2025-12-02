@@ -5,7 +5,7 @@ namespace Models;
 public class Pokemon
 {
     // Datos
-    public int ID { get; set; }
+    public int Id { get; set; }
     public string Region { get; set; }
     public string Nombre { get; set; }
     public double Peso { get; set; }
@@ -18,7 +18,7 @@ public class Pokemon
     // Constructor completo
     public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat)
     {
-        this.ID = id;
+        this.Id = id;
         this.Region = region;
         this.Nombre = nombre;
         this.Peso = peso;
