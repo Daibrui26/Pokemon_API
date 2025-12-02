@@ -1,3 +1,5 @@
+using Models;
+
 public class Objeto
 {
     public int Id { get; set; }

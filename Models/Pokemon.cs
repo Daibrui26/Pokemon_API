@@ -1,4 +1,4 @@
-using System.Collections;
+using Models;
 
 namespace Models;
 
@@ -15,7 +15,6 @@ public class Pokemon
     public Pokeball Pokeball { get; set; }
     public Habitat Habitat { get; set; }
     public Objeto Objeto {get; set; }
-
     // Constructor completo
     public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat, Objeto objeto)
     {

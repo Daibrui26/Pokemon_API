@@ -11,14 +11,17 @@ namespace Pokemon_API.Repositories
         private readonly  IHabilidadRepository _IHabilidadRepository;
         private readonly  IPokeballRepository _IPokeballRepository;
         private readonly IHabitatRepository _IHabitatRepository;
+        private readonly IObjetoRepository _IObjetoRepository;
         private string? connectionString;
 
-        public PokemonRepository(string connectionString, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository)
+        public PokemonRepository(string connectionString, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository, IObjetoRepository IObjetoRepository)
         {
             _connectionString = connectionString;
             _IHabilidadRepository = IHabilidadRepository;
             _IPokeballRepository = IPokeballRepository;
             _IHabitatRepository = IHabitatRepository;
+            _IObjetoRepository = IObjetoRepository;
+
 
         }
 
@@ -35,7 +38,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT Id, Nombre, Region, Peso, Shiny, Tipo, idHabilidad, idHabitat, idPokeball FROM Pokemon";
+                string query = "SELECT Id, Nombre, Region, Peso, Shiny, Tipo, Habilidad, Habitat, Pokeball, Objeto FROM Pokemon";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
@@ -54,6 +57,7 @@ namespace Pokemon_API.Repositories
                                 Habilidad = await _IHabilidadRepository.GetByIdAsync(reader.GetInt32(6)),
                                 Habitat = await _IHabitatRepository.GetByIdAsync(reader.GetInt32(7)),
                                 Pokeball = await _IPokeballRepository.GetByIdAsync(reader.GetInt32(8)),
+                                Objeto = await _IObjetoRepository.GetByIdAsync(reader.GetInt32(9))
                                 
                             }; 
 
@@ -73,7 +77,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT Id, Nombre, Region, Peso, Shiny, Tipo, idHabilidad, idHabitat, idPokeball FROM Pokemon WHERE Id = @Id";
+                string query = "SELECT Id, Nombre, Region, Peso, Shiny, Tipo, Habilidad, Habitat, Pokeball, Objeto FROM Pokemon WHERE Id = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -93,6 +97,8 @@ namespace Pokemon_API.Repositories
                                 Habilidad = await _IHabilidadRepository.GetByIdAsync(reader.GetInt32(6)),
                                 Habitat = await _IHabitatRepository.GetByIdAsync(reader.GetInt32(7)),
                                 Pokeball = await _IPokeballRepository.GetByIdAsync(reader.GetInt32(8)),
+                                Objeto = await _IObjetoRepository.GetByIdAsync(reader.GetInt32(9))
+                                 
                                
                             };
                         }
@@ -108,7 +114,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "INSERT INTO Pokemon (Nombre, Region, Peso, Shiny, Tipo, idHabilidad, idHabitat, idPokeball) VALUES (@Nombre, @Region, @Peso, @Shiny, @Tipo, @idHabilidad, @idHabitat, @idPokeball)";
+                string query = "INSERT INTO Pokemon (Nombre, Region, Peso, Shiny, Tipo, Habilidad, Habitat, Pokeball, Objeto) VALUES (@Nombre, @Region, @Peso, @Shiny, @Tipo, @Habilidad, @Habitat, @Pokeball, @Objeto)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", Pokemon.Nombre);
@@ -116,9 +122,10 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Peso", Pokemon.Peso);
                     command.Parameters.AddWithValue("@Shiny", Pokemon.Shiny);
                     command.Parameters.AddWithValue("@Tipo", Pokemon.Tipo);
-                    command.Parameters.AddWithValue("@idHabilidad", Pokemon.Habilidad.Id);
-                    command.Parameters.AddWithValue("@idHabitat", Pokemon.Habitat.Id);
-                    command.Parameters.AddWithValue("@idPokeball", Pokemon.Pokeball.Id);
+                    command.Parameters.AddWithValue("@Habilidad", Pokemon.Habilidad.Id);
+                    command.Parameters.AddWithValue("@Habitat", Pokemon.Habitat.Id);
+                    command.Parameters.AddWithValue("@Pokeball", Pokemon.Pokeball.Id);
+                    command.Parameters.AddWithValue("@Objeto", Pokemon.Objeto.Id);
                    
                    
 
@@ -133,7 +140,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Pokemons SET Nombre = @Nombre, Region = @Region, Peso = @Peso, Shiny = @Shiny, Tipo = @Tipo, idHabilidad = @idHabilidad, idHabitat = @idHabitat, idPokeball = @idPokeball WHERE Id = @Id";
+                string query = "UPDATE Pokemons SET Nombre = @Nombre, Region = @Region, Peso = @Peso, Shiny = @Shiny, Tipo = @Tipo, Habilidad = @Habilidad, Habitat = @Habitat, Pokeball = @Pokeball, Objeto = @Objeto WHERE Id = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", Pokemon.Nombre);
@@ -141,10 +148,10 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Peso", Pokemon.Peso);
                     command.Parameters.AddWithValue("@Shiny", Pokemon.Shiny);
                     command.Parameters.AddWithValue("@Tipo", Pokemon.Tipo);
-                    command.Parameters.AddWithValue("@idHabilidad", Pokemon.Habilidad.Id);
-                    command.Parameters.AddWithValue("@idHabitat", Pokemon.Habitat.Id);
-                    command.Parameters.AddWithValue("@idPokeball", Pokemon.Pokeball.Id);
-                   
+                    command.Parameters.AddWithValue("@Habilidad", Pokemon.Habilidad.Id);
+                    command.Parameters.AddWithValue("@Habitat", Pokemon.Habitat.Id);
+                    command.Parameters.AddWithValue("@Pokeball", Pokemon.Pokeball.Id);
+                    command.Parameters.AddWithValue("@Objeto", Pokemon.Objeto.Id);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -175,10 +182,10 @@ namespace Pokemon_API.Repositories
 
                 // Comando SQL para insertar datos iniciales
                 var query = @"
-                    INSERT INTO Pokemon (Nombre, Region, Peso, Shiny, Tipo, idHabilidad, idHabitat, idPokeball)
+                    INSERT INTO Pokemon (Nombre, Region, Peso, Shiny, Tipo, Habilidad, Habitat, Pokeball, Objeto)
                     VALUES 
-                    (@Nombre1, @Region1, @Peso1, @Shiny1, @Tipo1, @idHabilidad1, @idHabitat1, @idPokeball1),
-                    (@Nombre2, @Region2, @Peso2, @Shiny2, @Tipo2, @idHabilidad2, @idHabitat2, @idPokeball2)";
+                    (@Nombre1, @Region1, @Peso1, @Shiny1, @Tipo1, @Habilidad1, @Habitat1, @Pokeball1, @Objeto1),
+                    (@Nombre2, @Region2, @Peso2, @Shiny2, @Tipo2, @Habilidad2, @Habitat2, @Pokeball2, @Objeto2)";
                  
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -188,9 +195,11 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Peso1", 1.23);
                     command.Parameters.AddWithValue("@Shiny1", 0);
                     command.Parameters.AddWithValue("@Tipo1", "Electrico");
-                    command.Parameters.AddWithValue("@idHabilidad1", 1);
-                    command.Parameters.AddWithValue("@idHabitat1", 1);
-                    command.Parameters.AddWithValue("@idPokeball1", 1);
+                    command.Parameters.AddWithValue("@Habilidad1", 1);
+                    command.Parameters.AddWithValue("@Habitat1", 1);
+                    command.Parameters.AddWithValue("@Pokeball1", 1);
+                    command.Parameters.AddWithValue("@Objeto1", 1);
+
                     
 
                     // Parámetros para el segundo plato
@@ -199,9 +208,9 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Peso2", 1.45);
                     command.Parameters.AddWithValue("@Shiny2", 1);
                     command.Parameters.AddWithValue("@Tipo2", "Fuego, Volador");
-                    command.Parameters.AddWithValue("@idHabilidad2", 2);
-                    command.Parameters.AddWithValue("@idHabitat2", 2);
-                    command.Parameters.AddWithValue("@idPokeball2", 2);
+                    command.Parameters.AddWithValue("@Habilidad2", 2);
+                    command.Parameters.AddWithValue("@Habitat2", 2);
+                    command.Parameters.AddWithValue("@Objeto2", 2);
 
                     await command.ExecuteNonQueryAsync();
                 }

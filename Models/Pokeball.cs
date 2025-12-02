@@ -1,3 +1,4 @@
+using Models;
 public class Pokeball
 {
     public int Id { get; set; }

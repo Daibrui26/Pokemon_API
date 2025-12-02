@@ -1,3 +1,4 @@
+using Models;
 public class Habitat
 {
     public int Id { get; set; }
