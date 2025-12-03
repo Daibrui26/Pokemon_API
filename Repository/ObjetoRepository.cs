@@ -6,9 +6,9 @@ namespace Pokemon_API.Repositories
     {
         private readonly string _connectionString;
 
-        public ObjetoRepository(string connectionString)
+        public ObjetoRepository(IConfiguration configuration)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("PokemonDB") ?? "Not found";
         }
 
         public async Task<List<Objeto>> GetAllAsync()

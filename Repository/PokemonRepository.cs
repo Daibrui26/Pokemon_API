@@ -14,9 +14,9 @@ namespace Pokemon_API.Repositories
         private readonly IObjetoRepository _IObjetoRepository;
         //private string? connectionString;
 
-        public PokemonRepository(string connectionString, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository, IObjetoRepository IObjetoRepository)
+        public PokemonRepository(IConfiguration configuration, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository, IObjetoRepository IObjetoRepository)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("PokemonDB") ?? "Not found";
             _IHabilidadRepository = IHabilidadRepository;
             _IPokeballRepository = IPokeballRepository;
             _IHabitatRepository = IHabitatRepository;
