@@ -1,23 +1,23 @@
 using Pokemon_API.Controllers;
 using Pokemon_API.Repositories;
+using Pokemon_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PokemonDB");
 
-builder.Services.AddScoped<IHabilidadRepository, HabilidadRepository>(provider =>
-new HabilidadRepository(connectionString));
+//builder.Services.AddScoped<IHabilidadRepository, HabilidadRepository>(provider =>
+//new HabilidadRepository(connectionString));
 
-builder.Services.AddScoped<IPokemonRepository, PokemonRepository>(provider =>
-new PokemonRepository(connectionString));
+builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
-builder.Services.AddScoped<IHabitatRepository, HabitatRepository>(provider =>
-new HabitatRepository(connectionString));
+//builder.Services.AddScoped<IHabitatRepository, HabitatRepository>(provider =>
+//new HabitatRepository(connectionString));
 
-builder.Services.AddScoped<IPokeballRepository, PokeballRepository>(provider =>
-new PokeballRepository(connectionString));
-
-builder.Services.AddScoped<IObjetoRepository, ObjetoRepository>(provider =>
-new ObjetoRepository(connectionString));
+builder.Services.AddScoped<IPokeballRepository, PokeballRepository>();
+builder.Services.AddScoped<IObjetoRepository, ObjetoRepository>();
+builder.Services.AddScoped<IPokemonService, PokemonService>();
+builder.Services.AddScoped<IPokeballService, PokeballService>();
+builder.Services.AddScoped<IObjetoService, ObjetoService>();
 
 
 // Add services to the container.

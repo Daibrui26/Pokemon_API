@@ -12,7 +12,7 @@ namespace Pokemon_API.Repositories
         private readonly  IPokeballRepository _IPokeballRepository;
         private readonly IHabitatRepository _IHabitatRepository;
         private readonly IObjetoRepository _IObjetoRepository;
-        private string? connectionString;
+        //private string? connectionString;
 
         public PokemonRepository(string connectionString, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository, IObjetoRepository IObjetoRepository)
         {
@@ -24,12 +24,6 @@ namespace Pokemon_API.Repositories
 
 
         }
-
-        public PokemonRepository(string? connectionString)
-        {
-            this.connectionString = connectionString;
-        }
-
         public async Task<List<Pokemon>> GetAllAsync()
         {
             var Pokemons = new List<Pokemon>();
