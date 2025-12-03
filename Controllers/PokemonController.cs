@@ -23,6 +23,21 @@ namespace Pokemon_API.Controllers
             var Pokemons = await _repository.GetAllAsync();
             return Ok(Pokemons);
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Pokemon>>> SearchPokemons(
+        
+            [FromQuery] string? Nombre,
+            [FromQuery] string? Tipo,
+            [FromQuery] string? orderBy,
+            [FromQuery] bool ascending=true)
+            {
+
+            var pokemons = await _repository.GetAllFilteredAsync(Nombre, Tipo, orderBy, ascending);
+            
+        
+            return Ok(pokemons);
+        }
+    
         [HttpGet("{id}")]
         public async Task<ActionResult<Pokemon>> GetPokemon(int id)
         {

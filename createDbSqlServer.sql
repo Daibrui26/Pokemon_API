@@ -11,8 +11,8 @@ CREATE TABLE Habilidad (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(500),
-    Beneficiosa BIT NOT NULL
-    Oculta BIT NOT NULL
+    Beneficiosa BIT NOT NULL,
+    Oculta BIT NOT NULL,
     Unica BIT NOT NULL
 );
 
@@ -93,3 +93,16 @@ INSERT INTO Pokemon (Region, Nombre, Peso, Shiny, Tipo, Habilidad, Pokeball, Hab
 ('Kanto', 'Pikachu', 6.0, 0, 'Eléctrico', 1, 1, 1, 1),
 ('Kanto', 'Charizard', 90.5, 1, 'Fuego/Volador', 2, 3, 2, 3),
 ('Johto', 'Totodile', 9.5, 0, 'Agua', 3, 2, 3, 2);
+
+
+-- DROPTABLES
+
+
+-- Primero eliminamos la tabla dependiente
+DROP TABLE IF EXISTS Pokemon;
+
+-- Luego eliminamos las tablas referenciadas
+DROP TABLE IF EXISTS Habilidad;
+DROP TABLE IF EXISTS Pokeball;
+DROP TABLE IF EXISTS Habitat;
+DROP TABLE IF EXISTS Objeto;

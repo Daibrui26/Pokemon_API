@@ -18,6 +18,12 @@ namespace Pokemon_API.Services
             return await _PokemonRepository.GetAllAsync();
         }
 
+        public async Task<List<Pokemon>> GetAllFilteredAsync(string? Nombre, string? Tipo, string? orderBy, bool ascending)
+        {
+          
+            return await _PokemonRepository.GetAllFilteredAsync(Nombre, Tipo, orderBy, ascending);
+        }
+
         public async Task<Pokemon?> GetByIdAsync(int id)
         {
             if (id <= 0)
