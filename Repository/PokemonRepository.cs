@@ -63,6 +63,78 @@ namespace Pokemon_API.Repositories
             return Pokemons;
         }
 
+        public async Task<List<Pokemon>> GetAllFilteredAsync(string? Nombre, string? Tipo, string? orderBy, bool ascending)
+        {
+            var Pokemons = new List<Pokemon>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                string query = "SELECT Id, Region, Nombre, Peso, Shiny, Tipo, Habilidad, Pokeball, Habitat, Objeto FROM Pokemon WHERE 1=1";
+                var parameters = new List<SqlParameter>();
+
+                // Filtros
+                if (!string.IsNullOrWhiteSpace(Tipo))
+                {
+                    query += " AND Tipo = @Tipo";
+                    parameters.Add(new SqlParameter("@Tipo", Tipo));
+                }
+
+                if (!string.IsNullOrWhiteSpace(Nombre))
+                {
+                    query += " AND Nombre = @Nombre";
+                    parameters.Add(new SqlParameter("@Nombre", Nombre));
+                }
+
+                // Ordenación
+                if (!string.IsNullOrWhiteSpace(orderBy))
+                {
+                    var validColumns = new[] { "region", "nombre", "peso", "shiny", "tipo", "habilidad", "pokeball", "habitat", "objeto" };
+                    var orderByLower = orderBy.ToLower();
+                    
+                    if (validColumns.Contains(orderByLower))
+                    {
+                        var direction = ascending ? "ASC" : "DESC";
+                        query += $" ORDER BY {orderByLower} {direction}";
+                    }else
+                {
+                    query += " ORDER BY nombre ASC";
+                }
+                }
+                
+
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddRange(parameters.ToArray());
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var Pokemon = new Pokemon
+                            {
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Region = reader.GetString(2),
+                                Peso = reader.GetDouble(3),
+                                Shiny = reader.GetBoolean(4),
+                                Tipo = reader.GetString(5),
+                                Habilidad = await _IHabilidadRepository.GetByIdAsync(reader.GetInt32(6)),
+                                Habitat = await _IHabitatRepository.GetByIdAsync(reader.GetInt32(7)),
+                                Pokeball = await _IPokeballRepository.GetByIdAsync(reader.GetInt32(8)),
+                                Objeto = await _IObjetoRepository.GetByIdAsync(reader.GetInt32(9))
+                                 
+                            };
+
+                            Pokemons.Add(Pokemon);
+                        }
+                    }
+                }
+            }
+            return Pokemons;
+        }
+
         public async Task<Pokemon> GetByIdAsync(int id)
         {
             Pokemon Pokemon = null;
