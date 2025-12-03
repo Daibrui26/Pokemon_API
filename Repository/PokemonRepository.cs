@@ -201,9 +201,10 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Region2", "Kanto");
                     command.Parameters.AddWithValue("@Peso2", 1.45);
                     command.Parameters.AddWithValue("@Shiny2", 1);
-                    command.Parameters.AddWithValue("@Tipo2", "Fuego, Volador");
+                    command.Parameters.AddWithValue("@Tipo2", "Volador/Fuego");
                     command.Parameters.AddWithValue("@Habilidad2", 2);
                     command.Parameters.AddWithValue("@Habitat2", 2);
+                    command.Parameters.AddWithValue("@Pokeball2", 2);
                     command.Parameters.AddWithValue("@Objeto2", 2);
 
                     await command.ExecuteNonQueryAsync();
