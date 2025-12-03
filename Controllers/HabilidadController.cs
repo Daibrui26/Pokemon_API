@@ -67,7 +67,8 @@ namespace Pokemon_API.Controllers
             existingHabilidad.Nombre = updatedHabilidad.Nombre;
             existingHabilidad.Descripcion = updatedHabilidad.Descripcion;
             existingHabilidad.Beneficiosa = updatedHabilidad.Beneficiosa;
-
+            existingHabilidad.Oculta = updatedHabilidad.Oculta;
+            existingHabilidad.Unica = updatedHabilidad.Unica;
             await _repository.UpdateAsync(existingHabilidad); // Guarda cambios
             return NoContent(); // Devuelve 204 sin contenido
         }

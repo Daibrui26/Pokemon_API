@@ -12,11 +12,11 @@ namespace Pokemon_API.Repositories
         private readonly  IPokeballRepository _IPokeballRepository;
         private readonly IHabitatRepository _IHabitatRepository;
         private readonly IObjetoRepository _IObjetoRepository;
-        private string? connectionString;
+        //private string? connectionString;
 
-        public PokemonRepository(string connectionString, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository, IObjetoRepository IObjetoRepository)
+        public PokemonRepository(IConfiguration configuration, IHabilidadRepository IHabilidadRepository, IPokeballRepository IPokeballRepository, IHabitatRepository IHabitatRepository, IObjetoRepository IObjetoRepository)
         {
-            _connectionString = connectionString;
+            _connectionString = configuration.GetConnectionString("PokemonDB") ?? "Not found";
             _IHabilidadRepository = IHabilidadRepository;
             _IPokeballRepository = IPokeballRepository;
             _IHabitatRepository = IHabitatRepository;
@@ -24,12 +24,6 @@ namespace Pokemon_API.Repositories
 
 
         }
-
-        public PokemonRepository(string? connectionString)
-        {
-            this.connectionString = connectionString;
-        }
-
         public async Task<List<Pokemon>> GetAllAsync()
         {
             var Pokemons = new List<Pokemon>();
@@ -207,9 +201,10 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Region2", "Kanto");
                     command.Parameters.AddWithValue("@Peso2", 1.45);
                     command.Parameters.AddWithValue("@Shiny2", 1);
-                    command.Parameters.AddWithValue("@Tipo2", "Fuego, Volador");
+                    command.Parameters.AddWithValue("@Tipo2", "Volador/Fuego");
                     command.Parameters.AddWithValue("@Habilidad2", 2);
                     command.Parameters.AddWithValue("@Habitat2", 2);
+                    command.Parameters.AddWithValue("@Pokeball2", 2);
                     command.Parameters.AddWithValue("@Objeto2", 2);
 
                     await command.ExecuteNonQueryAsync();

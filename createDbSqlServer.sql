@@ -1,6 +1,6 @@
 CREATE DATABASE PokemonDB;
 
-SELECT name, database_id, create-database_id
+SELECT name, database_id, create database_id
 FROM sys.databases 
 WHERE name = 'PokemonDB';
 
@@ -11,7 +11,9 @@ CREATE TABLE Habilidad (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(500),
-    Beneficiosa BOOLEAN NOT NULL
+    Beneficiosa BIT NOT NULL
+    Oculta BIT NOT NULL
+    Unica BIT NOT NULL
 );
 
 -- Tabla Pokeball
@@ -40,7 +42,7 @@ CREATE TABLE Objeto (
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(500),
     Precio FLOAT NOT NULL,
-    Unico BOOLEAN NOT NULL,
+    Unico BIT NOT NULL,
     Efecto NVARCHAR(500)
 );
 
@@ -50,7 +52,7 @@ CREATE TABLE Pokemon (
     Region NVARCHAR(100),
     Nombre NVARCHAR(100) NOT NULL,
     Peso FLOAT NOT NULL,
-    Shiny BOOLEAN NOT NULL,
+    Shiny BIT NOT NULL,
     Tipo NVARCHAR(50),
     Habilidad INT,
     Pokeball INT,
@@ -63,10 +65,10 @@ CREATE TABLE Pokemon (
 );
 
 -- Datos de ejemplo para Habilidad
-INSERT INTO Habilidad (Nombre, Descripcion, Beneficiosa) VALUES
-('Intimidación', 'Reduce el ataque del oponente al entrar en combate', 1),
-('Absorbe Agua', 'Recupera PS cuando es alcanzado por movimientos de tipo Agua', 1),
-('Clorofila', 'Duplica la velocidad bajo el sol intenso', 1);
+INSERT INTO Habilidad (Nombre, Descripcion, Beneficiosa, Oculta, Unica) VALUES
+('Intimidación', 'Reduce el ataque del oponente al entrar en combate', 1, 0, 0),
+('Absorbe Agua', 'Recupera PS cuando es alcanzado por movimientos de tipo Agua', 1, 0, 0),
+('Clorofila', 'Duplica la velocidad bajo el sol intenso', 1, 1, 0);
 
 -- Datos de ejemplo para Pokeball
 INSERT INTO Pokeball (Nombre, Ratio, Precio, Color, Efecto) VALUES
