@@ -1,6 +1,6 @@
 CREATE DATABASE PokemonDB;
 
-SELECT name, database_id, create-database_id
+SELECT name, database_id, create database_id
 FROM sys.databases 
 WHERE name = 'PokemonDB';
 
@@ -11,7 +11,7 @@ CREATE TABLE Habilidad (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(500),
-    Beneficiosa BOOLEAN NOT NULL
+    Beneficiosa BIT NOT NULL
 );
 
 -- Tabla Pokeball
@@ -40,7 +40,7 @@ CREATE TABLE Objeto (
     Nombre NVARCHAR(100) NOT NULL,
     Descripcion NVARCHAR(500),
     Precio FLOAT NOT NULL,
-    Unico BOOLEAN NOT NULL,
+    Unico BIT NOT NULL,
     Efecto NVARCHAR(500)
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE Pokemon (
     Region NVARCHAR(100),
     Nombre NVARCHAR(100) NOT NULL,
     Peso FLOAT NOT NULL,
-    Shiny BOOLEAN NOT NULL,
+    Shiny BIT NOT NULL,
     Tipo NVARCHAR(50),
     Habilidad INT,
     Pokeball INT,
