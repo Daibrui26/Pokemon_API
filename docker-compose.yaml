@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+
+  api:
+    image: mcr.microsoft.com/dotnet/aspnet:8.0
+    container_name: dotnet_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "0596:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MyDb;User=sa;Password=YourPassword123;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    volumes:
+      - ./api:/app
+    networks:
+      - backend
+    restart: unless-stopped
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    # // container_name: sqlserver quitar nombre contenedor
+    ports:
+      - "6950:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourPassword123
+      - MSSQL_PID=Express
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - backend
+    restart: unless-stopped
+
+networks:
+  backend:
+  frontend:
+
+volumes:
+  sqlserver_data:
