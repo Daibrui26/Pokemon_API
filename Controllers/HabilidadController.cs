@@ -7,15 +7,16 @@ namespace Pokemon_API.Controllers
    [ApiController]
    public class HabilidadController : ControllerBase
    {
-        // Lista local (ya no se usa si hay repositorio, pero está declarada)
+        // Lista local 
         private static List<Habilidad> habilidad = new List<Habilidad>();
 
         // Repositorio que maneja acceso a datos (inyección de dependencias)
         private readonly IHabilidadRepository _repository;
 
+        //Este constructr recive el repositorio
         public HabilidadController(IHabilidadRepository repository)
         {
-            // Se asigna el repositorio recibido por el constructor
+            
             _repository = repository;
         }
     
@@ -25,7 +26,7 @@ namespace Pokemon_API.Controllers
         public async Task<ActionResult<List<Habilidad>>> GetHabilidades()
         {
             var habilidad = await _repository.GetAllAsync(); // Obtiene todas las habilidades
-            return Ok(habilidad); // Devuelve 200 OK con los datos
+            return Ok(habilidad); // Devuelve OK con los datos
         }
 
         // GET api/habilidad/{id}
@@ -48,7 +49,7 @@ namespace Pokemon_API.Controllers
         {
             await _repository.AddAsync(habilidad); // Guarda nueva habilidad
 
-            // Devuelve 201 Created y ubicación del nuevo recurso
+            // Devuelve Created y ubicación del nuevo recurso
             return CreatedAtAction(nameof(GetHabilidades), new { id = habilidad.Id }, habilidad);
         }
 
