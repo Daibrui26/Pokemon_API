@@ -2,6 +2,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Pokemon_API.Repositories
 {
+    //Implementa el IRepository
     public class HabilidadRepository : IHabilidadRepository
     {
         private readonly string _connectionString;
@@ -11,13 +12,13 @@ namespace Pokemon_API.Repositories
             _connectionString = configuration.GetConnectionString("PokemonDB") ?? "Not found";
         }
 
-        public async Task<List<Habilidad>> GetAllAsync()
+        public async Task<List<Habilidad>> GetAllAsync()  //Obtiene las habilidades de la base
         {
             var habilidades = new List<Habilidad>();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))  //Cierra la conexion al terminar
             {
-                await connection.OpenAsync();
+                await connection.OpenAsync(); //Abre conexion a la BD
 
                 string query = "SELECT Id, Nombre, Descripcion, Beneficiosa, Oculta, Unica FROM Habilidad";
                 using (var command = new SqlCommand(query, connection))
@@ -26,7 +27,7 @@ namespace Pokemon_API.Repositories
                     {
                         while (await reader.ReadAsync())
                         {
-                            var habilidad = new Habilidad
+                            var habilidad = new Habilidad //Creamos un objeto con los siguientes datos
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1),
@@ -45,7 +46,7 @@ namespace Pokemon_API.Repositories
             return habilidades;
         }
 
-        public async Task<Habilidad> GetByIdAsync(int id)
+        public async Task<Habilidad> GetByIdAsync(int id)  //Pillamos Habilidad por ID
         {
             Habilidad habilidad = null;
 
@@ -53,14 +54,15 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT Id, Nombre, Descripcion, Beneficiosa, Oculta, Unica FROM Habilidad WHERE Id = @Id";
+                string query = "SELECT Id, Nombre, Descripcion, Beneficiosa, Oculta, Unica FROM Habilidad WHERE Id = @Id"; //Consulta para mostrar las habilidades
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
 
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        if (await reader.ReadAsync())
+
+                        if (await reader.ReadAsync()) // Devuelve true si hay datos
                         {
                             habilidad = new Habilidad
                             {
@@ -84,7 +86,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "INSERT INTO Habilidad (Nombre, Descripcion, Beneficiosa, Oculta, Unica) VALUES (@Nombre, @Descripcion, @Beneficiosa, @Oculta, @Unica)";
+                string query = "INSERT INTO Habilidad (Nombre, Descripcion, Beneficiosa, Oculta, Unica) VALUES (@Nombre, @Descripcion, @Beneficiosa, @Oculta, @Unica)";  //Consulta para insertar datos
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", habilidad.Nombre);
@@ -93,7 +95,7 @@ namespace Pokemon_API.Repositories
                     command.Parameters.AddWithValue("@Oculta", habilidad.Oculta);
                     command.Parameters.AddWithValue("@Unica", habilidad.Unica);
 
-                    await command.ExecuteNonQueryAsync();
+                    await command.ExecuteNonQueryAsync();  //Ejecuta la consulta
                 }
             }
         }
@@ -104,7 +106,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Habilidad SET Nombre = @Nombre, Descripcion = @Descripcion, Beneficiosa = @Beneficiosa, Oculta = @Oculta, Unica = @Unica WHERE Id = @Id";
+                string query = "UPDATE Habilidad SET Nombre = @Nombre, Descripcion = @Descripcion, Beneficiosa = @Beneficiosa, Oculta = @Oculta, Unica = @Unica WHERE Id = @Id";  //Consulta para actualizar las habilidades
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", habilidad.Id);
@@ -125,7 +127,7 @@ namespace Pokemon_API.Repositories
             {
                 await connection.OpenAsync();
 
-                string query = "DELETE FROM Habilidad WHERE Id = @Id";
+                string query = "DELETE FROM Habilidad WHERE Id = @Id"; //Consulta para eliminar habilidad
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
