@@ -46,6 +46,14 @@ CREATE TABLE Objeto (
     Efecto NVARCHAR(500)
 );
 
+CREATE TABLE Reseña (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Usuario NVARCHAR(100) NOT NULL,
+    Fecha Date,
+    Texto NVARCHAR(1000),
+    Puntuacion INT NOT NULL
+);
+
 -- Tabla Pokemon (con relaciones a las demás tablas)
 CREATE TABLE Pokemon (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -58,10 +66,12 @@ CREATE TABLE Pokemon (
     Pokeball INT,
     Habitat INT,
     Objeto INT,
+    Reseña INT,
     FOREIGN KEY (Habilidad) REFERENCES Habilidad(Id),
     FOREIGN KEY (Pokeball) REFERENCES Pokeball(Id),
     FOREIGN KEY (Habitat) REFERENCES Habitat(Id),
-    FOREIGN KEY (Objeto) REFERENCES Objeto(Id)
+    FOREIGN KEY (Objeto) REFERENCES Objeto(Id),
+    FOREIGN KEY (Reseña) REFERENCES Reseña(Id)
 );
 
 -- Datos de ejemplo para Habilidad
@@ -88,11 +98,17 @@ INSERT INTO Objeto (Nombre, Descripcion, Precio, Unico, Efecto) VALUES
 ('Baya Zreza', 'Cura parálisis', 0, 0, 'Elimina estado de parálisis'),
 ('Piedra Fuego', 'Evoluciona ciertos Pokémon', 2100, 0, 'Piedra evolutiva de tipo fuego');
 
+-- Datos de ejemplo para Reseña
+INSERT INTO Reseña (Usuario, Fecha, Texto, Puntuacion) VALUES
+('AlexApruebame', '2025-12-10 14:30:00', 'Peazo de pokemon, te voy a poner un 10 en el trabajo', 5),
+('Repe777', '2025-10-10 14:30:00', 'Vaya mojon de bicho',1),
+('destructor161zgz', '2025-12-10 14:30:00', 'Apruebame porfa :(', 3);
+
 -- Datos de ejemplo para Pokemon
-INSERT INTO Pokemon (Region, Nombre, Peso, Shiny, Tipo, Habilidad, Pokeball, Habitat, Objeto) VALUES
-('Kanto', 'Pikachu', 6.0, 0, 'Eléctrico', 1, 1, 1, 1),
-('Kanto', 'Charizard', 90.5, 1, 'Fuego/Volador', 2, 3, 2, 3),
-('Johto', 'Totodile', 9.5, 0, 'Agua', 3, 2, 3, 2);
+INSERT INTO Pokemon (Region, Nombre, Peso, Shiny, Tipo, Habilidad, Pokeball, Habitat, Objeto, Reseña) VALUES
+('Kanto', 'Pikachu', 6.0, 0, 'Eléctrico', 1, 1, 1, 1, 1),
+('Kanto', 'Charizard', 90.5, 1, 'Fuego/Volador', 2, 3, 2, 3, 2),
+('Johto', 'Totodile', 9.5, 0, 'Agua', 3, 2, 3, 2, 3);
 
 
 -- DROPTABLES
@@ -106,3 +122,4 @@ DROP TABLE IF EXISTS Habilidad;
 DROP TABLE IF EXISTS Pokeball;
 DROP TABLE IF EXISTS Habitat;
 DROP TABLE IF EXISTS Objeto;
+DROP TABLE IF EXISTS Reseña;
