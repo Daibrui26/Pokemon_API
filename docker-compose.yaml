@@ -8,6 +8,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: daibrui26/pokemon_api:v1.0
     ports:
       - "3997:5000"
     environment:

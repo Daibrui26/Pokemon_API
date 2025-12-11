@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using Pokemon_API.Repositories;
+using Pokemon_API.Services;
 
 namespace Pokemon_API.Controllers
 {
@@ -10,17 +10,17 @@ namespace Pokemon_API.Controllers
    {
     private static List<Pokemon> Pokemons = new List<Pokemon>();
 
-    private readonly IPokemonRepository _repository;
+    private readonly IPokemonService _Service;
 
-    public PokemonController(IPokemonRepository repository)
+    public PokemonController(IPokemonService Service)
         {
-            _repository = repository;
+            _Service = Service;
         }
     
         [HttpGet]
         public async Task<ActionResult<List<Pokemon>>> GetPokemon()
         {
-            var Pokemons = await _repository.GetAllAsync();
+            var Pokemons = await _Service.GetAllAsync();
             return Ok(Pokemons);
         }
         [HttpGet("search")]
@@ -32,7 +32,7 @@ namespace Pokemon_API.Controllers
             [FromQuery] bool ascending=true)
             {
 
-            var pokemons = await _repository.GetAllFilteredAsync(Nombre, Tipo, orderBy, ascending);
+            var pokemons = await _Service.GetAllFilteredAsync(Nombre, Tipo, orderBy, ascending);
             
         
             return Ok(pokemons);
@@ -41,7 +41,7 @@ namespace Pokemon_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Pokemon>> GetPokemon(int id)
         {
-            var Pokemon = await _repository.GetByIdAsync(id);
+            var Pokemon = await _Service.GetByIdAsync(id);
             if (Pokemon == null)
             {
                 return NotFound();
@@ -52,14 +52,14 @@ namespace Pokemon_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Pokemon>> CreatePokemon(Pokemon Pokemon)
         {
-            await _repository.AddAsync(Pokemon);
+            await _Service.AddAsync(Pokemon);
             return CreatedAtAction(nameof(GetPokemon), new { id = Pokemon.Id }, Pokemon);
         }
 
        [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePokemon(int id, Pokemon updatedPokemon)
         {
-            var existingPokemon = await _repository.GetByIdAsync(id);
+            var existingPokemon = await _Service.GetByIdAsync(id);
             if (existingPokemon == null)
             {
                 return NotFound();
@@ -76,7 +76,7 @@ namespace Pokemon_API.Controllers
             existingPokemon.Habitat = updatedPokemon.Habitat;
             existingPokemon.Objeto = updatedPokemon.Objeto;
             existingPokemon.Reseña = updatedPokemon.Reseña;
-            await _repository.UpdateAsync(existingPokemon);
+            await _Service.UpdateAsync(existingPokemon);
             return NoContent();
         }
 
@@ -85,19 +85,19 @@ namespace Pokemon_API.Controllers
        [HttpDelete("{id}")]
        public async Task<IActionResult> DeletePokemon(int id)
        {
-           var Pokemon = await _repository.GetByIdAsync(id);
+           var Pokemon = await _Service.GetByIdAsync(id);
            if (Pokemon == null)
            {
                return NotFound();
            }
-           await _repository.DeleteAsync(id);
+           await _Service.DeleteAsync(id);
            return NoContent();
        }
 
         [HttpPost("inicializar")]
         public async Task<IActionResult> InicializarDatos()
         {
-            await _repository.InicializarDatosAsync();
+            await _Service.InicializarDatosAsync();
             return Ok("Datos inicializados correctamente.");
         }
 

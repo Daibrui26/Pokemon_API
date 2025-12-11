@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Pokemon_API.Repositories;
+using Pokemon_API.Services;
 
 namespace Pokemon_API.Controllers
 {
@@ -11,13 +11,13 @@ namespace Pokemon_API.Controllers
         private static List<Habilidad> habilidad = new List<Habilidad>();
 
         // Repositorio que maneja acceso a datos (inyección de dependencias)
-        private readonly IHabilidadRepository _repository;
+        private readonly IHabilidadService _Service;
 
         //Este constructr recive el repositorio
-        public HabilidadController(IHabilidadRepository repository)
+        public HabilidadController(IHabilidadService Service)
         {
             
-            _repository = repository;
+            _Service = Service;
         }
     
         // GET api/habilidad
@@ -25,7 +25,7 @@ namespace Pokemon_API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Habilidad>>> GetHabilidades()
         {
-            var habilidad = await _repository.GetAllAsync(); // Obtiene todas las habilidades
+            var habilidad = await _Service.GetAllAsync(); // Obtiene todas las habilidades
             return Ok(habilidad); // Devuelve OK con los datos
         }
 
@@ -34,7 +34,7 @@ namespace Pokemon_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Habilidad>> GetHabilidad(int id)
         {
-            var habilidad = await _repository.GetByIdAsync(id); // Busca habilidad por ID
+            var habilidad = await _Service.GetByIdAsync(id); // Busca habilidad por ID
             if (habilidad == null)
             {
                 return NotFound(); // Si no existe, devuelve 404
@@ -47,7 +47,7 @@ namespace Pokemon_API.Controllers
         [HttpPost]
         public async Task<ActionResult<Habilidad>> CreateHabilidad(Habilidad habilidad)
         {
-            await _repository.AddAsync(habilidad); // Guarda nueva habilidad
+            await _Service.AddAsync(habilidad); // Guarda nueva habilidad
 
             // Devuelve Created y ubicación del nuevo recurso
             return CreatedAtAction(nameof(GetHabilidades), new { id = habilidad.Id }, habilidad);
@@ -58,7 +58,7 @@ namespace Pokemon_API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateHabilidad(int id, Habilidad updatedHabilidad)
         {
-            var existingHabilidad = await _repository.GetByIdAsync(id); // Busca habilidad existente
+            var existingHabilidad = await _Service.GetByIdAsync(id); // Busca habilidad existente
             if (existingHabilidad == null)
             {
                 return NotFound(); // Si no existe, devuelve error
@@ -70,7 +70,7 @@ namespace Pokemon_API.Controllers
             existingHabilidad.Beneficiosa = updatedHabilidad.Beneficiosa;
             existingHabilidad.Oculta = updatedHabilidad.Oculta;
             existingHabilidad.Unica = updatedHabilidad.Unica;
-            await _repository.UpdateAsync(existingHabilidad); // Guarda cambios
+            await _Service.UpdateAsync(existingHabilidad); // Guarda cambios
             return NoContent(); // Devuelve 204 sin contenido
         }
 
@@ -79,13 +79,13 @@ namespace Pokemon_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHabilidad(int id)
         {
-            var habilidad = await _repository.GetByIdAsync(id); // Busca la habilidad
+            var habilidad = await _Service.GetByIdAsync(id); // Busca la habilidad
             if (habilidad == null)
             {
                 return NotFound(); // Si no existe, 404
             }
 
-            await _repository.DeleteAsync(id); // Elimina la habilidad
+            await _Service.DeleteAsync(id); // Elimina la habilidad
             return NoContent(); // 204 No Content
         }
 
@@ -94,7 +94,7 @@ namespace Pokemon_API.Controllers
         [HttpPost("inicializar")]
         public async Task<IActionResult> InicializarDatos()
         {
-            await _repository.InicializarDatosAsync(); // Llama a carga inicial de datos
+            await _Service.InicializarDatosAsync(); // Llama a carga inicial de datos
             return Ok("Datos inicializados correctamente."); // Respuesta confirmando
         }
 
