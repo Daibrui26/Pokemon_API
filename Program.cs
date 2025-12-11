@@ -11,6 +11,8 @@ builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
 builder.Services.AddScoped<IHabitatRepository, HabitatRepository>();
 
+builder.Services.AddScoped<IOpinionRepository, OpinionRepository>();
+
 builder.Services.AddScoped<IPokeballRepository, PokeballRepository>();
 builder.Services.AddScoped<IObjetoRepository, ObjetoRepository>();
 builder.Services.AddScoped<IPokemonService, PokemonService>();
@@ -18,6 +20,8 @@ builder.Services.AddScoped<IPokeballService, PokeballService>();
 builder.Services.AddScoped<IObjetoService, ObjetoService>();
 builder.Services.AddScoped<IHabilidadService, HabilidadService>();
 builder.Services.AddScoped<IHabitatService, HabitatService>();
+builder.Services.AddScoped<IOpinionService, OpinionService>();
+
 
 
 // Add services to the container.

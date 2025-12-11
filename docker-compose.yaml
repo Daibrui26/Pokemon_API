@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3897:5000"
+      - "2795:5000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PokemonDB=Server=sqlserver;Database=PokemonDB;User Id=sa;Password=yourStrong(!)Password;TrustServerCertificate=True;   
@@ -23,7 +23,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-CU21-ubuntu-20.04
     # container_name: sqlserver quitar nombre contenedor
     ports:
-      - "7983:1433"
+      - "2895:1433"
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=yourStrong(!)Password

@@ -6,6 +6,15 @@ WHERE name = 'PokemonDB';
 
 USE PokemonDB;
 
+-- Tabla Opinion
+CREATE TABLE Opinion (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Usuario NVARCHAR(100) NOT NULL,
+    Comentario NVARCHAR(500),
+    Calificacion FLOAT NOT NULL,
+    Fecha NVARCHAR(100) NOT NULL
+);
+
 -- Tabla Habilidad
 CREATE TABLE Habilidad (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -64,11 +73,18 @@ CREATE TABLE Pokemon (
     FOREIGN KEY (Objeto) REFERENCES Objeto(Id)
 );
 
+
+INSERT INTO Opinion (Usuario, Comentario, Calificacion, Fecha) VALUES
+('Daibrui26', 'El mejor juego del mundo', 5.0, '2024-01-15'),
+('Drucksciut', 'Charizard es mi favorito', 5.0, '2024-01-18'),
+('BrockRockSolid', 'Onix tiene una defensa excepcional. Perfecto para batallas de resistencia.', 4.5, '2024-01-20');
+
 -- Datos de ejemplo para Habilidad
 INSERT INTO Habilidad (Nombre, Descripcion, Beneficiosa, Oculta, Unica) VALUES
 ('Intimidación', 'Reduce el ataque del oponente al entrar en combate', 1, 0, 0),
 ('Absorbe Agua', 'Recupera PS cuando es alcanzado por movimientos de tipo Agua', 1, 0, 0),
 ('Clorofila', 'Duplica la velocidad bajo el sol intenso', 1, 1, 0);
+
 
 -- Datos de ejemplo para Pokeball
 INSERT INTO Pokeball (Nombre, Ratio, Precio, Color, Efecto) VALUES
