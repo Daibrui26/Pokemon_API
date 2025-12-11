@@ -10,10 +10,9 @@ namespace Pokemon_API.Controllers
         // Lista local 
         private static List<Habilidad> habilidad = new List<Habilidad>();
 
-        // Repositorio que maneja acceso a datos (inyección de dependencias)
         private readonly IHabilidadService _Service;
 
-        //Este constructr recive el repositorio
+        //Este constructr recive el service
         public HabilidadController(IHabilidadService Service)
         {
             
