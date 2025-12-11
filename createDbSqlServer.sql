@@ -46,12 +46,13 @@ CREATE TABLE Objeto (
     Efecto NVARCHAR(500)
 );
 
-CREATE TABLE Reseña (
+-- Tabla Opinion
+CREATE TABLE Opinion (
     Id INT PRIMARY KEY IDENTITY(1,1),
     Usuario NVARCHAR(100) NOT NULL,
-    Fecha Date,
-    Texto NVARCHAR(1000),
-    Puntuacion INT NOT NULL
+    Comentario NVARCHAR(500),
+    Calificacion FLOAT NOT NULL,
+    Fecha NVARCHAR(100) NOT NULL
 );
 
 -- Tabla Pokemon (con relaciones a las demás tablas)
@@ -66,12 +67,10 @@ CREATE TABLE Pokemon (
     Pokeball INT,
     Habitat INT,
     Objeto INT,
-    Reseña INT,
     FOREIGN KEY (Habilidad) REFERENCES Habilidad(Id),
     FOREIGN KEY (Pokeball) REFERENCES Pokeball(Id),
     FOREIGN KEY (Habitat) REFERENCES Habitat(Id),
-    FOREIGN KEY (Objeto) REFERENCES Objeto(Id),
-    FOREIGN KEY (Reseña) REFERENCES Reseña(Id)
+    FOREIGN KEY (Objeto) REFERENCES Objeto(Id)
 );
 
 -- Datos de ejemplo para Habilidad
@@ -92,17 +91,17 @@ INSERT INTO Habitat (Nombre, Region, Clima, Temperatura, Descripcion) VALUES
 ('Monte Moon', 'Kanto', 'Frío', 10, 'Montaña con muchas cuevas y fósiles'),
 ('Playa Celeste', 'Johto', 'Cálido', 28, 'Costa con aguas cristalinas');
 
+INSERT INTO Opinion (Usuario, Comentario, Calificacion, Fecha) VALUES
+('Daibrui26', 'HOLAHOLAHOLA', 5.0, '2024-01-15'),
+('Druck', 'ADIOSADIOSADIOS', 4.2, '2024-01-18')
+
+
 -- Datos de ejemplo para Objeto
 INSERT INTO Objeto (Nombre, Descripcion, Precio, Unico, Efecto) VALUES
 ('Poción', 'Objeto que restaura unos pocos PS', 300, 0, 'Cura 20 PS'),
 ('Baya Zreza', 'Cura parálisis', 0, 0, 'Elimina estado de parálisis'),
 ('Piedra Fuego', 'Evoluciona ciertos Pokémon', 2100, 0, 'Piedra evolutiva de tipo fuego');
 
--- Datos de ejemplo para Reseña
-INSERT INTO Reseña (Usuario, Fecha, Texto, Puntuacion) VALUES
-('AlexApruebame', '2025-12-10 14:30:00', 'Peazo de pokemon, te voy a poner un 10 en el trabajo', 5),
-('Repe777', '2025-10-10 14:30:00', 'Vaya mojon de bicho',1),
-('destructor161zgz', '2025-12-10 14:30:00', 'Apruebame porfa :(', 3);
 
 -- Datos de ejemplo para Pokemon
 INSERT INTO Pokemon (Region, Nombre, Peso, Shiny, Tipo, Habilidad, Pokeball, Habitat, Objeto, Reseña) VALUES
