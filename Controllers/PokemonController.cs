@@ -75,7 +75,6 @@ namespace Pokemon_API.Controllers
             existingPokemon.Pokeball = updatedPokemon.Pokeball;
             existingPokemon.Habitat = updatedPokemon.Habitat;
             existingPokemon.Objeto = updatedPokemon.Objeto;
-            existingPokemon.Reseña = updatedPokemon.Reseña;
             await _Service.UpdateAsync(existingPokemon);
             return NoContent();
         }
