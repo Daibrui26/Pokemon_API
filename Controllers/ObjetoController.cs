@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Pokemon_API.Repositories;
+using Pokemon_API.Services;
 
 namespace Pokemon_API.Controllers
 {
@@ -10,23 +10,23 @@ namespace Pokemon_API.Controllers
    {
     private static List<Objeto> Objeto = new List<Objeto>();
 
-    private readonly IObjetoRepository _repository;   
+    private readonly IObjetoService _Service;   
 
-    public ObjetoController(IObjetoRepository repository)
+    public ObjetoController(IObjetoService Service)
     {
-        _repository = repository;
+        _Service = Service;
     }
 
     [HttpGet]
         public async Task<ActionResult<List<Objeto>>> GetObjetos()
         {
-            var Objeto = await _repository.GetAllAsync();
+            var Objeto = await _Service.GetAllAsync();
             return Ok(Objeto);
         }
     [HttpGet("{id}")]
         public async Task<ActionResult<Objeto>> GetObjeto(int id)
         {
-            var Objeto = await _repository.GetByIdAsync(id);
+            var Objeto = await _Service.GetByIdAsync(id);
             if (Objeto == null) //Objeto no puede estar vacio
             {
                 return NotFound();
@@ -37,14 +37,14 @@ namespace Pokemon_API.Controllers
     [HttpPost]
         public async Task<ActionResult<Objeto>> CreateObjeto(Objeto Objeto)
         {
-            await _repository.AddAsync(Objeto);
+            await _Service.AddAsync(Objeto);
             return CreatedAtAction(nameof(GetObjeto), new { id = Objeto.Id }, Objeto);
         }
 
     [HttpPut("{id}")]
         public async Task<IActionResult> UpdateObjeto(int id, Objeto updatedObjeto)
         {
-            var existingObjeto = await _repository.GetByIdAsync(id);
+            var existingObjeto = await _Service.GetByIdAsync(id);
             if (existingObjeto == null)
             {
                 return NotFound();
@@ -57,26 +57,26 @@ namespace Pokemon_API.Controllers
             existingObjeto.Unico = updatedObjeto.Unico;
             existingObjeto.Efecto = updatedObjeto.Efecto;
 
-            await _repository.UpdateAsync(existingObjeto);
+            await _Service.UpdateAsync(existingObjeto);
             return NoContent();
         }
 
     [HttpDelete("{id}")]
        public async Task<IActionResult> DeleteObjeto(int id)
        {
-           var Objeto = await _repository.GetByIdAsync(id);
+           var Objeto = await _Service.GetByIdAsync(id);
            if (Objeto == null)
            {
                return NotFound();
            }
-           await _repository.DeleteAsync(id);
+           await _Service.DeleteAsync(id);
            return NoContent();
        }
 
         [HttpPost("inicializar")]
         public async Task<IActionResult> InicializarDatos()
         {
-            await _repository.InicializarDatosAsync();
+            await _Service.InicializarDatosAsync();
             return Ok("Datos inicializados correctamente.");
         }
 

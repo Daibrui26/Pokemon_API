@@ -15,8 +15,9 @@ public class Pokemon
     public Pokeball Pokeball { get; set; }
     public Habitat Habitat { get; set; }
     public Objeto Objeto {get; set; }
+    public Reseña Reseña {get; set; }
     // Constructor completo
-    public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat, Objeto objeto)
+    public Pokemon(int id, string region, string nombre, double peso, bool shiny, string tipo, Habilidad habilidad, Pokeball pokeball, Habitat habitat, Objeto objeto, Reseña reseña)
     {
         this.Id = id;
         this.Region = region;
@@ -28,6 +29,7 @@ public class Pokemon
         this.Pokeball = pokeball;
         this.Habitat = habitat;
         this.Objeto = objeto;
+        this.Reseña = reseña;
     }
 
     // Constructor vacío

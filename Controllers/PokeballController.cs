@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Pokemon_API.Repositories;
+using Pokemon_API.Services;
 
 namespace Pokemon_API.Controllers
 {
@@ -10,23 +10,23 @@ namespace Pokemon_API.Controllers
    {
     private static List<Pokeball> pokeball = new List<Pokeball>();
 
-    private readonly IPokeballRepository _repository;   
+    private readonly IPokeballService _Service;   
 
-    public PokeballController(IPokeballRepository repository)
+    public PokeballController(IPokeballService Service)
     {
-        _repository = repository;
+        _Service = Service;
     }
 
     [HttpGet]
         public async Task<ActionResult<List<Pokeball>>> GetPokeballs()
         {
-            var pokeball = await _repository.GetAllAsync();
+            var pokeball = await _Service.GetAllAsync();
             return Ok(pokeball);
         }
     [HttpGet("{id}")]
         public async Task<ActionResult<Pokeball>> GetPokeball(int id)
         {
-            var pokeball = await _repository.GetByIdAsync(id);
+            var pokeball = await _Service.GetByIdAsync(id);
             if (pokeball == null) //Pokeball no puede estar vacio
             {
                 return NotFound();
@@ -37,14 +37,14 @@ namespace Pokemon_API.Controllers
     [HttpPost]
         public async Task<ActionResult<Pokeball>> CreatePokeball(Pokeball pokeball)
         {
-            await _repository.AddAsync(pokeball);
+            await _Service.AddAsync(pokeball);
             return CreatedAtAction(nameof(GetPokeball), new { id = pokeball.Id }, pokeball);
         }
 
     [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePokeball(int id, Pokeball updatedPokeball)
         {
-            var existingPokeball = await _repository.GetByIdAsync(id);
+            var existingPokeball = await _Service.GetByIdAsync(id);
             if (existingPokeball == null)
             {
                 return NotFound();
@@ -57,26 +57,26 @@ namespace Pokemon_API.Controllers
             existingPokeball.Color = updatedPokeball.Color;
             existingPokeball.Efecto = updatedPokeball.Efecto;
 
-            await _repository.UpdateAsync(existingPokeball);
+            await _Service.UpdateAsync(existingPokeball);
             return NoContent();
         }
 
     [HttpDelete("{id}")]
        public async Task<IActionResult> DeletePokeball(int id)
        {
-           var pokeball = await _repository.GetByIdAsync(id);
+           var pokeball = await _Service.GetByIdAsync(id);
            if (pokeball == null)
            {
                return NotFound();
            }
-           await _repository.DeleteAsync(id);
+           await _Service.DeleteAsync(id);
            return NoContent();
        }
 
         [HttpPost("inicializar")]
         public async Task<IActionResult> InicializarDatos()
         {
-            await _repository.InicializarDatosAsync();
+            await _Service.InicializarDatosAsync();
             return Ok("Datos inicializados correctamente.");
         }
 
